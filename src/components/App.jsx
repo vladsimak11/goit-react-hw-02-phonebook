@@ -1,6 +1,11 @@
 import React, { Component } from "react";
-import css from './App.module.css'
 import { nanoid } from 'nanoid';
+
+import {ContactForm} from './ContactForm/ContactForm';
+import {Filter} from './Filter/Filter';
+import {ContactList} from './ContactList/ContactList';
+
+let contactsName = []
 
 export class App extends Component  {
   state = {
@@ -11,8 +16,6 @@ export class App extends Component  {
       {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
     ],
     filter: '',
-    name: '',
-    number: ''
   }
 
   addContacts = (name, number) => {
@@ -25,6 +28,26 @@ export class App extends Component  {
     this.setState(prevState => ({
       contacts: [contact, ...prevState.contacts],
     }))
+  }
+
+  formSubmitData = ({name, number}) => {   
+    // this.state.contacts.filter((contact) => {
+    //   if(!(contact.name === name)) {
+    //     alert(`${name} is already in contacts`);
+    //   } else {
+    //     this.addContacts(name, number);
+    //   };
+    // })
+    this.state.contacts.forEach(contact => {
+      contactsName.push(contact.name);
+    });
+
+    if (contactsName.includes(name)) {
+      alert(`${name} is already in contacts`);
+    } else {
+      this.addContacts(name, number); 
+    }
+
   }
 
   changeFilter = (e) => {
@@ -40,27 +63,8 @@ export class App extends Component  {
     return contacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
   };
 
-  handleChange = e => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-    const { name, number } = this.state;
-    this.addContacts(name, number);
-    this.reset();
-  };
-
-  reset = () => {
-    this.setState({ 
-      name: '',
-      number: ''
-    });
-  };
-
   render() {
-    const { contacts, filter, name, number } = this.state;
+    const {filter} = this.state;
     const visibleContact = this.getVisibleContact();
     return (
       <div
@@ -74,7 +78,8 @@ export class App extends Component  {
       }}
     >
       <h1>Phonebook</h1>
-      <form onSubmit={this.handleSubmit} className={css.form}>
+      <ContactForm onSubmit={this.formSubmitData}/>
+      {/* <form onSubmit={this.handleSubmit} className={css.form}>
         <label className={css.label}>
           Name
           <input
@@ -106,9 +111,10 @@ export class App extends Component  {
         </label>
 
         <button className={css.button} type="submit">Add contact</button>
-      </form>
+      </form> */}
       <h2>Contacts</h2>
-      <label className={`${css.label} ${css.filter}`}>
+      <Filter filter={filter} changeFilter={this.changeFilter}/>
+      {/* <label className={`${css.label} ${css.filter}`}>
           Find contacts by name
           <input
             className={css.input}
@@ -119,14 +125,15 @@ export class App extends Component  {
             onChange={this.changeFilter}
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           />
-        </label>
-      <ul>
+        </label> */}
+      <ContactList visibleContact={visibleContact} />
+      {/* <ul>
         {visibleContact.map(({id, name, number}) => {
           return (
             <li className={css.item} key={id}>{name}: {number}</li>
           )
         })}
-      </ul>
+      </ul> */}
     </div>
     )
   };

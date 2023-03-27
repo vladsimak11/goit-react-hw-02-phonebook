@@ -1,0 +1,8 @@
+.item {
+  font-size: 20px;
+  font-weight: 600;
+  width: 260px;
+  display: 'flex';
+  flex-direction: column;
+  gap: 20px;
+}
