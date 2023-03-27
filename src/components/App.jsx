@@ -30,14 +30,13 @@ export class App extends Component  {
     }))
   }
 
+  deleteContact = id => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== id)
+    }))
+  }
+
   formSubmitData = ({name, number}) => {   
-    // this.state.contacts.filter((contact) => {
-    //   if(!(contact.name === name)) {
-    //     alert(`${name} is already in contacts`);
-    //   } else {
-    //     this.addContacts(name, number);
-    //   };
-    // })
     this.state.contacts.forEach(contact => {
       contactsName.push(contact.name);
     });
@@ -126,7 +125,7 @@ export class App extends Component  {
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           />
         </label> */}
-      <ContactList visibleContact={visibleContact} />
+      <ContactList visibleContact={visibleContact} deleteContact={this.deleteContact}/>
       {/* <ul>
         {visibleContact.map(({id, name, number}) => {
           return (
