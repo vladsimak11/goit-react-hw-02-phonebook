@@ -1,3 +1,4 @@
+import propTypes from 'prop-types';
 import css from './ContactList.module.css';
 
 export const ContactList = ({visibleContact, deleteContact }) => {
@@ -19,3 +20,14 @@ export const ContactList = ({visibleContact, deleteContact }) => {
       </ul>
   )
 }
+
+ContactList.propTypes = {
+  visibleContact: propTypes.arrayOf(
+    propTypes.shape({
+      id: propTypes.string.isRequired,
+      name: propTypes.string.isRequired,
+      number: propTypes.string.isRequired,
+    }),
+  ),
+  deleteContact: propTypes.func.isRequired,
+};
