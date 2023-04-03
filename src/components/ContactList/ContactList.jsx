@@ -7,7 +7,7 @@ export const ContactList = ({visibleContact, deleteContact }) => {
         {visibleContact.map(({id, name, number}) => {
           return (
             <li className={css.item} key={id}>
-              {name}: {number}
+              <span className={css.span}>{name}: {number}</span>
               <button
                 onClick={() => deleteContact(id)}
                 className={css.delete}
